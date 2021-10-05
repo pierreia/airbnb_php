@@ -10,7 +10,7 @@ use App\Entity\Room;
 class AgController extends AbstractController
 {
     /**
-     * @Route("/room/list", name="room_index", methods='GET')
+     * @Route("/room/list", name="room_index", methods="GET")
      */
     public function list_rooms()
     {
