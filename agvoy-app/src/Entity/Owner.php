@@ -5,6 +5,10 @@ namespace App\Entity;
 use App\Repository\OwnerRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
+
 /**
  * @ORM\Entity(repositoryClass=OwnerRepository::class)
  */
@@ -36,6 +40,17 @@ class Owner
      * @ORM\Column(type="string", length=2)
      */
     private $country;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Room::class, mappedBy="owner")
+     */
+    private $Room;
+
+    public function __construct()
+    {
+        $this->Room = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -88,5 +103,39 @@ class Owner
         $this->country = $country;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Room[]
+     */
+    public function getRoom(): Collection
+    {
+        return $this->Room;
+    }
+
+    public function addRoom(Room $room): self
+    {
+        if (!$this->Room->contains($room)) {
+            $this->Room[] = $room;
+            $room->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRoom(Room $room): self
+    {
+        if ($this->Room->removeElement($room)) {
+            // set the owning side to null (unless already changed)
+            if ($room->getOwner() === $this) {
+                $room->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString() {
+        return $this->familyName;
     }
 }

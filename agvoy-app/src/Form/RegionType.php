@@ -2,31 +2,27 @@
 
 namespace App\Form;
 
-use App\Entity\Room;
+use App\Entity\Region;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use App\Entity\Region;
 
-class RoomType extends AbstractType
+class RegionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('summary')
-            ->add('description')
-            ->add('capacity')
-            ->add('superficy')
-            ->add('price')
-            ->add('address')
-            ->add('region')
+            ->add('name')
+            ->add('presentation')
+            ->add('country')
+            ->add('rooms')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Room::class,
+            'data_class' => Region::class,
         ]);
     }
 }
